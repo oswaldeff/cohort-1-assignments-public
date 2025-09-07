@@ -3883,3 +3883,15 @@ The full error report is shown below.
 2025-09-07T09:47:54.043 application=nft_media_handler [error] Received an error from producer@172.18.0.4: {:badrpc, :nodedown}
 2025-09-07T09:48:01.147 application=nft_media_handler [error] Received an error from producer@172.18.0.4: {:badrpc, :nodedown}
 2025-09-07T09:48:08.254 application=nft_media_handler [error] Received an error from producer@172.18.0.4: {:badrpc, :nodedown}
+2025-09-07T09:48:15.364 application=nft_media_handler [error] Received an error from producer@172.18.0.4: {:badrpc, :nodedown}
+2025-09-07T09:48:22.475 application=nft_media_handler [error] Received an error from producer@172.18.0.4: {:badrpc, :nodedown}
+2025-09-07T09:48:29.581 application=nft_media_handler [error] Received an error from producer@172.18.0.4: {:badrpc, :nodedown}
+2025-09-07T09:48:36.691 application=nft_media_handler [error] Received an error from producer@172.18.0.4: {:badrpc, :nodedown}
+2025-09-07T09:48:43.796 application=nft_media_handler [error] Received an error from producer@172.18.0.4: {:badrpc, :nodedown}
+2025-09-07T09:48:50.901 application=nft_media_handler [error] Received an error from producer@172.18.0.4: {:badrpc, :nodedown}
+2025-09-07T09:48:58.005 application=nft_media_handler [error] Received an error from producer@172.18.0.4: {:badrpc, :nodedown}
+2025-09-07T09:49:05.113 application=nft_media_handler [error] Received an error from producer@172.18.0.4: {:badrpc, :nodedown}
+2025-09-07T09:49:12.225 application=nft_media_handler [error] Received an error from producer@172.18.0.4: {:badrpc, :nodedown}
+2025-09-07T09:49:19.331 application=nft_media_handler [error] Received an error from producer@172.18.0.4: {:badrpc, :nodedown}
+2025-09-07T09:49:26.435 application=nft_media_handler [error] Received an error from producer@172.18.0.4: {:badrpc, :nodedown}
+2025-09-07T09:49:33.541 application=nft_media_handler [error] Received an error from producer@172.18.0.4: {:badrpc, :nodedown}
