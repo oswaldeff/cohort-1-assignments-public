@@ -1,0 +1,136 @@
+version: "3.9"
+
+services:
+  redis-db:
+    extends:
+      file: ./services/redis.yml
+      service: redis-db
+    networks:
+      - geth-network
+
+  db-init:
+    extends:
+      file: ./services/db.yml
+      service: db-init
+    networks:
+      - geth-network
+
+  db:
+    depends_on:
+      db-init:
+        condition: service_completed_successfully
+    extends:
+      file: ./services/db.yml
+      service: db
+    networks:
+      - geth-network
+
+  backend:
+    depends_on:
+      - db
+      - redis-db
+    extends:
+      file: ./services/backend.yml
+      service: backend
+    build:
+      context: ..
+      dockerfile: ./docker/Dockerfile
+      args:
+        RELEASE_VERSION: 9.1.0
+    links:
+      - db:database
+    environment:
+      ETHEREUM_JSONRPC_HTTP_URL: http://geth:8545/
+      ETHEREUM_JSONRPC_TRACE_URL: http://geth:8545/
+      ETHEREUM_JSONRPC_WS_URL: ws://geth:8546/
+      CHAIN_ID: "1337"
+    networks:
+      - geth-network
+
+  nft_media_handler:
+    depends_on:
+      - backend
+    extends:
+      file: ./services/nft_media_handler.yml
+      service: nft_media_handler
+    build:
+      context: ..
+      dockerfile: ./docker/Dockerfile
+      args:
+        RELEASE_VERSION: 9.1.0
+    networks:
+      - geth-network
+
+  visualizer:
+    extends:
+      file: ./services/visualizer.yml
+      service: visualizer
+    networks:
+      - geth-network
+
+  sig-provider:
+    extends:
+      file: ./services/sig-provider.yml
+      service: sig-provider
+    networks:
+      - geth-network
+
+  frontend:
+    depends_on:
+      - backend
+    extends:
+      file: ./services/frontend.yml
+      service: frontend
+    networks:
+      - geth-network
+
+  stats-db-init:
+    extends:
+      file: ./services/stats.yml
+      service: stats-db-init
+    networks:
+      - geth-network
+
+  stats-db:
+    depends_on:
+      stats-db-init:
+        condition: service_completed_successfully
+    extends:
+      file: ./services/stats.yml
+      service: stats-db
+    networks:
+      - geth-network
+
+  stats:
+    depends_on:
+      - stats-db
+      - backend
+    extends:
+      file: ./services/stats.yml
+      service: stats
+    networks:
+      - geth-network
+
+  # user-ops-indexer:
+  #   depends_on:
+  #     - db
+  #     - backend
+  #   extends:
+  #     file: ./services/user-ops-indexer.yml
+  #     service: user-ops-indexer
+  #   networks:
+  #     - geth-network
+
+  proxy:
+    depends_on:
+      - backend
+      - frontend
+    extends:
+      file: ./services/nginx.yml
+      service: proxy
+    networks:
+      - geth-network
+
+networks:
+  geth-network:
+    external: true

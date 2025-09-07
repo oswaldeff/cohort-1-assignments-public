@@ -13,7 +13,9 @@ services:
     networks:
       - geth-network
   sc-deployer:
-    image: ghcr.io/hell-month/foundry:latest
+    build:
+      context: ./sc-deployer
+      dockerfile: Dockerfile
     platform: linux/arm64
     container_name: sc-deployer
     user: root
@@ -43,10 +45,10 @@ services:
     image: ethereum/client-go:v1.15.0
     container_name: geth
     ports:
-      - "8545:8545"  # HTTP RPC
-      - "8546:8546"  # WebSocket RPC
-      - "30303:30303"  # P2P
-      - "30303:30303/udp"  # P2P UDP
+      - "8545:8545" # HTTP RPC
+      - "8546:8546" # WebSocket RPC
+      - "30303:30303" # P2P
+      - "30303:30303/udp" # P2P UDP
     volumes:
       - geth-data:/root/.ethereum
       - ./geth:/geth
@@ -58,11 +60,11 @@ services:
       --http.port 8545
       --http.corsdomain "*"
       --http.vhosts "*"
-      --http.api "eth,net,web3,personal,miner,admin,debug"
+      --http.api "eth,net,web3,personal,miner,admin,debug,txpool"
       --ws
       --ws.addr 0.0.0.0
       --ws.port 8546
-      --ws.api "eth,net,web3,personal,miner,admin,debug"
+      --ws.api "eth,net,web3,personal,miner,admin,debug,txpool"
       --ws.origins "*"
       --allow-insecure-unlock
       --mine
@@ -85,6 +87,7 @@ services:
       - geth
     networks:
       - geth-network
+
   # graph-ipfs:
   # graph-postgres:
   # graph-redis:
@@ -98,3 +101,4 @@ volumes:
 networks:
   geth-network:
     driver: bridge
+    name: geth-network
