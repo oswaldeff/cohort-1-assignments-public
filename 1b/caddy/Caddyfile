@@ -28,7 +28,7 @@
 
 :80 {
     import cors
-    
+
     handle /deployment* {
         reverse_proxy sc-deployment-server:80
     }
@@ -55,7 +55,7 @@
     handle /static/* {
         reverse_proxy proxy:80
     }
-    
+
     handle /rpc* {
         uri strip_prefix /rpc
         reverse_proxy geth:8545
