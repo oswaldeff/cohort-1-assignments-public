@@ -33,6 +33,23 @@
         reverse_proxy sc-deployment-server:80
     }
 
+    # WebSocket support for Blockscout
+    handle /socket* {
+        reverse_proxy proxy:80 {
+            header_up Host {host}
+            header_up X-Real-IP {remote}
+            header_up X-Forwarded-For {remote}
+            header_up X-Forwarded-Proto {scheme}
+            header_up Connection {>Connection}
+            header_up Upgrade {>Upgrade}
+        }
+    }
+
+    # API requests to Blockscout backend
+    handle /api* {
+        reverse_proxy proxy:80
+    }
+
     # Explorer (Blockscout) under /explorer path
     handle /explorer* {
         uri strip_prefix /explorer

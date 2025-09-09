@@ -1765,3 +1765,6 @@
 2025-09-07T09:36:44.377 application=ethereum_jsonrpc [warning] URL "http://geth:8545/" is unavailable, and there is no other http url available, switching to fallback http url
 2025-09-07T09:36:46.220 application=ethereum_jsonrpc [info] URL "http://geth:8545/" of http type is available now, switching back from fallback urls
 2025-09-07T09:38:51.303 application=ethereum_jsonrpc [info] WS fallback endpoint is not set
+2025-09-08T11:17:52.969 application=ethereum_jsonrpc [info] WS fallback endpoint is not set
+2025-09-08T11:19:39.454 application=ethereum_jsonrpc [info] WS fallback endpoint is not set
+2025-09-08T11:21:52.393 application=ethereum_jsonrpc [info] WS fallback endpoint is not set
