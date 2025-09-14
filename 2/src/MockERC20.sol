@@ -9,10 +9,12 @@ import {IMockERC20} from "./IMockERC20.sol";
 contract MockERC20 is ERC20, IMockERC20 {
     constructor(string memory name_, string memory symbol_) ERC20(name_, symbol_) {}
 
+    // Implement
     function freeMintTo(uint256 amount, address to) external {
         _mint(to, amount);
     }
 
+    // Implement
     function freeMintToSender(uint256 amount) external {
         _mint(msg.sender, amount);
     }

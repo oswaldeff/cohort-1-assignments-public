@@ -16,11 +16,43 @@ contract MiniAMMFactory is IMiniAMMFactory {
     
     // implement
     function allPairsLength() external view returns (uint256) {
-        return 0;
+        return allPairs.length;
     }
     
     // implement
     function createPair(address tokenA, address tokenB) external returns (address pair) {
-        return address(0);
+        // Check for zero addresses
+        if (tokenA == address(0) || tokenB == address(0)) {
+            revert("Zero address");
+        }
+        
+        // Check for identical addresses
+        if (tokenA == tokenB) {
+            revert("Identical addresses");
+        }
+        
+        // Order tokens (token0 < token1)
+        address token0 = tokenA < tokenB ? tokenA : tokenB;
+        address token1 = tokenA < tokenB ? tokenB : tokenA;
+        
+        // Check if pair already exists
+        if (getPair[token0][token1] != address(0)) {
+            revert("Pair exists");
+        }
+        
+        // Deploy new MiniAMM pair
+        pair = address(new MiniAMM(token0, token1));
+        
+        // Store pair in mapping (both directions)
+        getPair[token0][token1] = pair;
+        getPair[token1][token0] = pair;
+        
+        // Add to allPairs array
+        allPairs.push(pair);
+        
+        // Emit event
+        emit PairCreated(token0, token1, pair, allPairs.length);
+        
+        return pair;
     }
 }

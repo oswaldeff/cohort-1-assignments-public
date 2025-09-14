@@ -17,11 +17,15 @@ contract FactoryScript is Script {
     function run() public {
         vm.startBroadcast();
 
-        // Step 1: Deploy MiniAMMFactory
+        // Deploy MiniAMMFactory
+        miniAMMFactory = new MiniAMMFactory();
 
-        // Step 2: Deploy two MockERC20 tokens
+        // Deploy mock ERC20 tokens
+        token0 = new MockERC20("Token A", "TKA");
+        token1 = new MockERC20("Token B", "TKB");
 
-        // Step 3: Create a MiniAMM pair using the factory
+        // Create a MiniAMM pair using the factory
+        pair = miniAMMFactory.createPair(address(token0), address(token1));
 
         vm.stopBroadcast();
     }
