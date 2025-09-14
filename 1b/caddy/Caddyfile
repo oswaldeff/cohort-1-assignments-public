@@ -73,6 +73,12 @@
         reverse_proxy proxy:80
     }
     
+    # Graph node GraphQL playground
+    handle /graph-playground* {
+        uri strip_prefix /graph-playground
+        reverse_proxy graph-node:8000
+    }
+    
     handle /rpc* {
         uri strip_prefix /rpc
         reverse_proxy geth:8545

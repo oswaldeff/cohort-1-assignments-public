@@ -1,0 +1,68 @@
+version: "3.8"
+
+services:
+  ipfs:
+    image: ipfs/go-ipfs:v0.14.0
+    container_name: ipfs
+    ports:
+      - "5001:5001"
+      - "4001:4001"
+    volumes:
+      - ./ipfs-data:/data/ipfs
+    command: daemon --migrate=true --agent-version-suffix=docker
+    networks:
+      - geth-network
+
+  postgres:
+    image: postgres:13
+    container_name: graph-postgres
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: graph-node
+      POSTGRES_PASSWORD: let-me-in
+      POSTGRES_DB: graph-node
+      POSTGRES_INITDB_ARGS: "--locale=C --encoding=UTF8"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - geth-network
+
+  redis:
+    image: redis:6-alpine
+    container_name: graph-redis
+    ports:
+      - "6379:6379"
+    networks:
+      - geth-network
+
+  graph-node:
+    image: graphprotocol/graph-node:latest
+    container_name: graph-node
+    ports:
+      - "8000:8000"
+      - "8001:8001"
+      - "8020:8020"
+      - "8030:8030"
+      - "8040:8040"
+    environment:
+      postgres_host: postgres
+      postgres_user: graph-node
+      postgres_pass: let-me-in
+      postgres_db: graph-node
+      ipfs: ipfs:5001
+      ethereum: "geth:http://geth:8545"
+      GRAPH_LOG: info
+    depends_on:
+      - ipfs
+      - postgres
+      - redis
+    networks:
+      - geth-network
+
+volumes:
+  postgres_data:
+
+networks:
+  geth-network:
+    external: true
