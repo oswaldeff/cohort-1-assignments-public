@@ -28,7 +28,7 @@
 
 :80 {
     import cors
-    
+
     handle /deployment* {
         reverse_proxy sc-deployment-server:80
     }
@@ -72,7 +72,7 @@
     handle /static/* {
         reverse_proxy proxy:80
     }
-    
+
     # Graph node GraphQL playground
     handle /graph-playground* {
         uri strip_prefix /graph-playground
